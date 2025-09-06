@@ -1,0 +1,38 @@
+@startuml
+!theme plain
+skinparam backgroundColor white
+
+actor User as U
+participant "NewTask Component" as NT
+participant "useTasks Hook" as UT
+participant "Supabase Client" as SC
+participant "Database" as DB
+
+U -> NT: Fill task form and submit
+activate NT
+
+NT -> NT: Validate form data
+NT -> UT: createTask(taskData)
+activate UT
+
+UT -> SC: supabase.from('tasks').insert(taskData)
+activate SC
+
+SC -> DB: INSERT INTO tasks VALUES(...)
+activate DB
+
+DB --> SC: Task created successfully
+deactivate DB
+
+SC --> UT: Return created task
+deactivate SC
+
+UT -> UT: Refresh task list
+UT --> NT: Task creation complete
+deactivate UT
+
+NT -> NT: Navigate to tasks page
+NT --> U: Show success feedback
+deactivate NT
+
+@enduml

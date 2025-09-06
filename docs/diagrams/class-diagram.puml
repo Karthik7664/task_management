@@ -1,0 +1,77 @@
+@startuml
+!theme plain
+skinparam backgroundColor white
+
+class User {
+  +id: string
+  +email: string
+  +created_at: Date
+  +last_sign_in_at: Date
+}
+
+class Task {
+  +id: string
+  +title: string
+  +description: string?
+  +completed: boolean
+  +priority: Priority
+  +due_date: Date?
+  +created_at: Date
+  +updated_at: Date
+  +project_id: string?
+  +user_id: string
+  +toggleComplete(): void
+  +updatePriority(priority: Priority): void
+  +setDueDate(date: Date): void
+}
+
+class Project {
+  +id: string
+  +name: string
+  +description: string?
+  +color: string
+  +created_at: Date
+  +user_id: string
+  +getTaskCount(): number
+  +getCompletedTasks(): Task[]
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+class AuthContext {
+  +user: User?
+  +session: Session?
+  +loading: boolean
+  +signIn(email: string, password: string): Promise<void>
+  +signUp(email: string, password: string): Promise<void>
+  +signOut(): Promise<void>
+}
+
+class TaskService {
+  +fetchTasks(): Promise<Task[]>
+  +createTask(task: TaskInput): Promise<Task>
+  +updateTask(id: string, updates: Partial<Task>): Promise<void>
+  +deleteTask(id: string): Promise<void>
+}
+
+class ProjectService {
+  +fetchProjects(): Promise<Project[]>
+  +createProject(project: ProjectInput): Promise<Project>
+  +updateProject(id: string, updates: Partial<Project>): Promise<void>
+  +deleteProject(id: string): Promise<void>
+}
+
+User ||--o{ Task : owns
+User ||--o{ Project : creates
+Project ||--o{ Task : contains
+Task }o-- Priority : has
+
+AuthContext --> User : manages
+TaskService --> Task : manipulates
+ProjectService --> Project : manipulates
+
+@enduml

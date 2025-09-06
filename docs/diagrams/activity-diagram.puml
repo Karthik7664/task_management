@@ -1,0 +1,37 @@
+@startuml
+!theme plain
+skinparam backgroundColor white
+
+start
+
+:User accesses application;
+
+if (User authenticated?) then (yes)
+  :Redirect to Dashboard;
+  stop
+else (no)
+  :Show Login page;
+endif
+
+:User enters credentials;
+
+if (Login or Sign Up?) then (Login)
+  :Call signIn(email, password);
+else (Sign Up)
+  :Call signUp(email, password);
+endif
+
+:Send request to Supabase Auth;
+
+if (Authentication successful?) then (yes)
+  :Set user session;
+  :Update auth context;
+  :Redirect to Dashboard;
+  stop
+else (no)
+  :Display error message;
+  :Return to login form;
+  stop
+endif
+
+@enduml
