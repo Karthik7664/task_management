@@ -9,6 +9,7 @@ This directory contains PlantUML source files for the TaskFlow project's UML dia
 3. **sequence-diagram.puml** - Illustrates the task creation flow over time
 4. **activity-diagram.puml** - Maps the user authentication workflow
 5. **component-diagram.puml** - Shows the system architecture and dependencies
+6. **state-chart-diagram.puml** - Shows the different states of a task lifecycle
 
 ## How to Generate Visual Diagrams
 

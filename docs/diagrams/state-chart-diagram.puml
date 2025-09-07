@@ -1,0 +1,47 @@
+@startuml
+!theme plain
+skinparam backgroundColor white
+
+[*] --> Created : Create Task
+
+state Created {
+  Created : title: string
+  Created : description: string
+  Created : priority: low/medium/high
+  Created : due_date: optional
+}
+
+Created --> InProgress : Start Working
+Created --> Completed : Mark Complete
+Created --> Deleted : Delete Task
+
+state InProgress {
+  InProgress : completed: false
+  InProgress : can be edited
+  InProgress : can set due date
+}
+
+InProgress --> Completed : Mark Complete
+InProgress --> Created : Reset to Created
+InProgress --> Deleted : Delete Task
+
+state Completed {
+  Completed : completed: true
+  Completed : read-only state
+}
+
+Completed --> InProgress : Reopen Task
+Completed --> Deleted : Delete Task
+
+state Deleted {
+  Deleted : removed from system
+}
+
+Deleted --> [*]
+
+note right of Created : New tasks start here
+note right of InProgress : Active work state
+note right of Completed : Task finished
+note bottom of Deleted : Final state
+
+@enduml

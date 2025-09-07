@@ -304,6 +304,60 @@ ProjectsTable --> UsersTable
 
 **Definition**: A Component Diagram shows the organization and dependencies among software components. It illustrates the system's architecture by displaying how components are wired together through interfaces and dependencies, helping understand the system's modular structure.
 
+## 6. State Chart Diagram - Task Lifecycle
+
+```
+@startuml
+!theme plain
+skinparam backgroundColor white
+
+[*] --> Created : Create Task
+
+state Created {
+  Created : title: string
+  Created : description: string
+  Created : priority: low/medium/high
+  Created : due_date: optional
+}
+
+Created --> InProgress : Start Working
+Created --> Completed : Mark Complete
+Created --> Deleted : Delete Task
+
+state InProgress {
+  InProgress : completed: false
+  InProgress : can be edited
+  InProgress : can set due date
+}
+
+InProgress --> Completed : Mark Complete
+InProgress --> Created : Reset to Created
+InProgress --> Deleted : Delete Task
+
+state Completed {
+  Completed : completed: true
+  Completed : read-only state
+}
+
+Completed --> InProgress : Reopen Task
+Completed --> Deleted : Delete Task
+
+state Deleted {
+  Deleted : removed from system
+}
+
+Deleted --> [*]
+
+note right of Created : New tasks start here
+note right of InProgress : Active work state
+note right of Completed : Task finished
+note bottom of Deleted : Final state
+
+@enduml
+```
+
+**Definition**: A State Chart Diagram (also called State Machine Diagram) shows the different states an object can be in and the transitions between those states triggered by events. It helps understand the behavior and lifecycle of objects in the system, showing how they respond to different events and conditions over time.
+
 ## UML Notation Definitions Summary
 
 1. **Use Case Diagram**: Captures functional requirements by showing interactions between actors and system use cases
@@ -311,5 +365,4 @@ ProjectsTable --> UsersTable
 3. **Sequence Diagram**: Shows object interactions over time with message sequences
 4. **Activity Diagram**: Depicts workflow with activities, decisions, and control flow
 5. **Component Diagram**: Illustrates system architecture with component organization and dependencies
-
-These diagrams provide comprehensive documentation of the TaskFlow system from different perspectives: user requirements, data structure, process flow, business logic, and system architecture.
+6. **State Chart Diagram**: Shows object states and transitions triggered by events over the object's lifecycle
