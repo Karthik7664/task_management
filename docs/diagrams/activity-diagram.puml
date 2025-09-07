@@ -4,33 +4,24 @@ skinparam backgroundColor white
 
 start
 
-:User accesses application;
+:User opens app;
 
-if (User authenticated?) then (yes)
-  :Redirect to Dashboard;
+if (Logged in?) then (yes)
+  :Show Dashboard;
   stop
 else (no)
-  :Show Login page;
+  :Show Login;
 endif
 
-:User enters credentials;
+:Enter credentials;
+:Submit login;
 
-if (Login or Sign Up?) then (Login)
-  :Call signIn(email, password);
-else (Sign Up)
-  :Call signUp(email, password);
-endif
-
-:Send request to Supabase Auth;
-
-if (Authentication successful?) then (yes)
-  :Set user session;
-  :Update auth context;
-  :Redirect to Dashboard;
+if (Valid credentials?) then (yes)
+  :Login successful;
+  :Show Dashboard;
   stop
 else (no)
-  :Display error message;
-  :Return to login form;
+  :Show error;
   stop
 endif
 

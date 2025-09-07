@@ -2,76 +2,27 @@
 !theme plain
 skinparam backgroundColor white
 
-package "Frontend (React)" {
-  component [App Component] as App
-  component [Auth Context] as Auth
-  component [Layout Component] as Layout
+package "Frontend" {
+  component [App] as App
   component [Dashboard] as Dashboard
-  component [Tasks Page] as Tasks
-  component [Projects Page] as Projects
-  component [Settings Page] as Settings
-  
-  package "Custom Hooks" {
-    component [useTasks] as HookTasks
-    component [useProjects] as HookProjects
-    component [useAuth] as HookAuth
-  }
-  
-  package "Components" {
-    component [TaskCard] as TaskCard
-    component [Login] as Login
-    component [NewTask] as NewTask
-  }
+  component [Tasks] as Tasks
+  component [Projects] as Projects
 }
 
-package "Backend Services" {
-  component [Supabase Client] as SupabaseClient
-  component [Authentication Service] as AuthService
-  component [Database Service] as DBService
+package "Backend" {
+  component [Supabase] as Supabase
 }
 
 package "Database" {
-  database [PostgreSQL] as DB {
-    component [Users Table] as UsersTable
-    component [Tasks Table] as TasksTable
-    component [Projects Table] as ProjectsTable
-  }
+  database [PostgreSQL] as DB
 }
 
-package "External Services" {
-  component [Supabase Auth] as SupabaseAuth
-  component [Supabase Database] as SupabaseDB
-}
-
-' Connections
-App --> Auth
-App --> Layout
-Layout --> Dashboard
-Layout --> Tasks
-Layout --> Projects
-Layout --> Settings
-
-Dashboard --> HookTasks
-Dashboard --> HookProjects
-Tasks --> HookTasks
-Tasks --> TaskCard
-Projects --> HookProjects
-Settings --> HookAuth
-
-HookTasks --> SupabaseClient
-HookProjects --> SupabaseClient
-HookAuth --> SupabaseClient
-
-SupabaseClient --> AuthService
-SupabaseClient --> DBService
-
-AuthService --> SupabaseAuth
-DBService --> SupabaseDB
-
-SupabaseDB --> DB
-SupabaseAuth --> UsersTable
-
-TasksTable --> UsersTable
-ProjectsTable --> UsersTable
+App --> Dashboard
+App --> Tasks
+App --> Projects
+Dashboard --> Supabase
+Tasks --> Supabase
+Projects --> Supabase
+Supabase --> DB
 
 @enduml
