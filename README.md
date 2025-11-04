@@ -1,3 +1,3 @@
 task_management
- open this in staclblitz
+ open this in stackblitz
  integrate supabase as the database
